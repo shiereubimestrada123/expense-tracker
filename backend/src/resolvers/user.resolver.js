@@ -1,11 +1,17 @@
 import { users } from "../dummyData/data.js";
+
 const userResolver = {
   Query: {
-    users: async (_, args, context) => {
+    // users: async (parent, args, context) => {
+    //   try {
+    //     return users;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    user: async (_, { userId }, { req, res }) => {
       try {
-        // console.log("args", args);
-        // console.log("context", context);
-        return users;
+        return users.find((user) => user._id === userId);
       } catch (error) {
         console.log(error);
       }
