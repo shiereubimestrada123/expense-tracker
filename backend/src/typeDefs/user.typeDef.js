@@ -14,6 +14,7 @@ const userTypeDef = `#graphql
 
   type Mutation {
     signUp(input: SignUpInput!): User
+    login(input: LoginInput!): User
   }
 
   input SignUpInput {
@@ -21,6 +22,11 @@ const userTypeDef = `#graphql
     name: String!
     password: String!
     gender: String!
+  }
+
+  input LoginInput {
+    username: String!
+    password: String!
   }
 `;
 
