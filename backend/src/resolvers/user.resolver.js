@@ -63,6 +63,16 @@ const userResolver = {
       await context.login(user);
       return user;
     },
+
+    logout: async (_, context) => {
+      await context.logout();
+      context.req.session.destroy((err) => {
+        if (err) throw err;
+      });
+      context.res.clearCookie("connect.sid");
+
+      return { message: "Logged out successfully" };
+    },
   },
 };
 
