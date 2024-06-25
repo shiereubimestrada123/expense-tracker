@@ -10,6 +10,9 @@ export default {
       borderColor: {
         "button-gradient": "rgba(0, 69, 158, 1)",
       },
+      colors: {
+        "primary-gradient": "rgba(0, 69, 158, 1)",
+      },
     },
   },
   plugins: [],
