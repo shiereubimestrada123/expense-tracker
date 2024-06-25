@@ -11,7 +11,7 @@ const App = () => {
   };
 
   return (
-    <div className="relative h-screen flex overflow-hidden bg-gray-100">
+    <div className="relative h-dvh flex overflow-hidden bg-gray-100">
       <div
         className={`absolute inset-0 flex transition-transform duration-1000 transform ${
           isSignIn ? "translate-x-0" : "-translate-x-full"
