@@ -6,7 +6,7 @@ const App = () => {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [nameFocused, setNameFocused] = useState(false);
 
-  const toggle = () => {
+  const toggleForm = () => {
     setIsSignIn(!isSignIn);
   };
 
@@ -17,9 +17,9 @@ const App = () => {
           isSignIn ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="w-1/2 flex items-center justify-center bg-white">
-          <div className="w-1/2">
-            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent">
+        <div className="w-full md:w-1/2 flex items-center justify-center bg-white">
+          <div className="w-3/4 lg:w-1/2">
+            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent text-center">
               Sign In
             </h2>
             <form className="space-y-4">
@@ -47,18 +47,28 @@ const App = () => {
               >
                 Sign In
               </button>
+              <p className="lg:hidden block">
+                Don&apos;t have an account yet? Please{" "}
+                <span
+                  className="text-primary-gradient italic tracking-wider"
+                  onClick={toggleForm}
+                >
+                  register
+                </span>{" "}
+                first.
+              </p>
             </form>
           </div>
         </div>
 
-        <div className="w-1/2 flex items-center justify-center bg-[url('/login.svg')] bg-cover bg-no-repeat text-white tracking-widest">
-          <div className="text-center space-y-10">
-            <h2 className="text-5xl font-bold ">Hello there!</h2>
-            <p className="text-xl">
+        <div className="hidden md:flex w-1/2 items-center justify-center bg-[url('/login.svg')] bg-cover bg-no-repeat text-white tracking-widest">
+          <div className="text-center space-y-6">
+            <h2 className="text-5xl font-bold">Hello there!</h2>
+            <p className="text-xl p-10">
               Don&apos;t have an account yet? Please register first.
             </p>
             <button
-              onClick={toggle}
+              onClick={toggleForm}
               className="mt-4 text-xl border-2 border-white px-10 py-2 rounded-full"
             >
               Sign Up
@@ -72,12 +82,12 @@ const App = () => {
           isSignIn ? "translate-x-full" : "translate-x-0"
         }`}
       >
-        <div className="w-1/2 flex items-center justify-center bg-[url('/login.svg')] bg-cover bg-no-repeat text-white tracking-widest">
-          <div className="text-center space-y-10">
+        <div className="hidden md:flex w-1/2 items-center justify-center bg-[url('/login.svg')] bg-cover bg-no-repeat text-white tracking-widest">
+          <div className="text-center space-y-6">
             <h2 className="text-5xl font-bold">Welcome back!</h2>
-            <p className="text-xl">Already have an account?</p>
+            <p className="text-xl p-10">Already have an account?</p>
             <button
-              onClick={toggle}
+              onClick={toggleForm}
               className="mt-4 text-xl border-2 border-white px-10 py-2 rounded-full"
             >
               SIGN IN
@@ -85,9 +95,9 @@ const App = () => {
           </div>
         </div>
 
-        <div className="w-1/2 flex items-center justify-center bg-white">
-          <div className="w-1/2">
-            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent">
+        <div className="w-full md:w-1/2 flex items-center justify-center bg-white">
+          <div className="w-3/4 lg:w-1/2">
+            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent text-center">
               Create Account
             </h2>
             <form className="space-y-4">
@@ -124,6 +134,16 @@ const App = () => {
               >
                 SIGN UP
               </button>
+              <p className="lg:hidden block">
+                If you already have an account? Please{" "}
+                <span
+                  className="text-primary-gradient italic tracking-wider"
+                  onClick={toggleForm}
+                >
+                  login
+                </span>
+                .
+              </p>
             </form>
           </div>
         </div>
