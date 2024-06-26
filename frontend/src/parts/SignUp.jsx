@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import PropTypes from "prop-types";
 import RadioButton from "../components/RadioButton";
 
@@ -11,6 +13,33 @@ const SignUp = ({
   passwordFocused,
   setPasswordFocused,
 }) => {
+  const [signUpData, setSignUpData] = useState({
+    name: "",
+    username: "",
+    password: "",
+    gender: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type } = e.target;
+
+    if (type === "radio") {
+      setSignUpData((prevData) => ({
+        ...prevData,
+        gender: value,
+      }));
+    } else {
+      setSignUpData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div
       className={`absolute inset-0 flex transition-transform duration-1000 transform ${
@@ -35,26 +64,36 @@ const SignUp = ({
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent text-center">
             Create Account
           </h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <input
+              id="name"
+              name="name"
               type="text"
-              placeholder="Name"
+              placeholder="Full name"
               className={`w-full p-2 border rounded focus:outline-none ${
                 nameFocused ? "border-button-gradient" : "border-gray-300"
               }`}
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
+              onChange={handleChange}
+              value={signUpData.name}
             />
             <input
-              type="email"
-              placeholder="Email"
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Username"
               className={`w-full p-2 border rounded focus:outline-none ${
                 emailFocused ? "border-button-gradient" : "border-gray-300"
               }`}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
+              onChange={handleChange}
+              value={signUpData.username}
             />
             <input
+              id="password"
+              name="password"
               type="password"
               placeholder="Password"
               className={`w-full p-2 border rounded focus:outline-none ${
@@ -62,14 +101,23 @@ const SignUp = ({
               }`}
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
+              onChange={handleChange}
+              value={signUpData.password}
             />
             <div className="flex gap-10">
-              <RadioButton id="male" label="Male" name="gender" value="male" />
+              <RadioButton
+                id="male"
+                label="Male"
+                name="gender"
+                value="male"
+                onChange={handleChange}
+              />
               <RadioButton
                 id="female"
                 label="Female"
                 name="gender"
                 value="female"
+                onChange={handleChange}
               />
             </div>
             <button
