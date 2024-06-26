@@ -1,17 +1,21 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
-import { users } from "../dummyData/data.js";
 
 const userResolver = {
   Query: {
-    user: async (_, { userId }, { req, res }) => {
-      return users.find((user) => user._id === userId);
+    user: async (_, { userId }) => {
+      const user = await User.findById(userId);
+      return user;
     },
   },
 
   Mutation: {
     signUp: async (_, { input }, context) => {
       const { username, name, password, gender } = input;
+
+      if (!username || !name || !password || !gender) {
+        throw new Error("All fields are required");
+      }
 
       if (username.length < 3) {
         throw new Error("Username must be at least 3 characters long");
@@ -34,44 +38,11 @@ const userResolver = {
 
       await newUser.save();
       await context.login(newUser);
-      return newUser;
 
-      // if (users.some((user) => user.username === username)) {
-      //   throw new Error("Username already taken");
-      // }
-
-      // const newUser = {
-      //   _id: String(users.length + 1),
-      //   username,
-      //   name,
-      //   password,
-      //   gender,
-      // };
-      // users.push(newUser);
-
-      // return newUser;
-    },
-
-    login: async (_, { input }, context) => {
-      const { username, password } = input;
-
-      const { user, info } = await context.authenticate("graphql-local", {
-        username,
-        password,
-      });
-
-      await context.login(user);
-      return user;
-    },
-
-    logout: async (_, context) => {
-      await context.logout();
-      context.req.session.destroy((err) => {
-        if (err) throw err;
-      });
-      context.res.clearCookie("connect.sid");
-
-      return { message: "Logged out successfully" };
+      return {
+        user: newUser,
+        message: "Sign up successful!",
+      };
     },
   },
 };

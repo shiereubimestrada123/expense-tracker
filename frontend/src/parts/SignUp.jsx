@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
 
 import PropTypes from "prop-types";
 import RadioButton from "../components/RadioButton";
+import { SIGN_UP } from "../graphql/mutations/user.mutation";
 
 const SignUp = ({
   isSignIn,
@@ -18,6 +21,23 @@ const SignUp = ({
     username: "",
     password: "",
     gender: "",
+  });
+
+  const [signUp, { loading }] = useMutation(SIGN_UP, {
+    variables: {
+      input: {
+        name: signUpData.name,
+        username: signUpData.username,
+        password: signUpData.password,
+        gender: signUpData.gender,
+      },
+    },
+    onCompleted: (data) => {
+      toast.success(data.signUp.message);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const handleChange = (e) => {
@@ -38,6 +58,7 @@ const SignUp = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await signUp();
   };
 
   return (
