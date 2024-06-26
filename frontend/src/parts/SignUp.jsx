@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import RadioButton from "../components/RadioButton";
 
 const SignUp = ({
   isSignIn,
@@ -62,6 +63,15 @@ const SignUp = ({
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
             />
+            <div className="flex gap-10">
+              <RadioButton id="male" label="Male" name="gender" value="male" />
+              <RadioButton
+                id="female"
+                label="Female"
+                name="gender"
+                value="female"
+              />
+            </div>
             <button
               type="submit"
               className="w-full p-2 bg-button-gradient text-white rounded"
