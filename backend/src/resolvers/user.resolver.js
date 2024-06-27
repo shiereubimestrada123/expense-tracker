@@ -7,6 +7,10 @@ const userResolver = {
       const user = await User.findById(userId);
       return user;
     },
+    authUser: async (_, __, context) => {
+      const user = await context.getUser();
+      return user;
+    },
   },
 
   Mutation: {

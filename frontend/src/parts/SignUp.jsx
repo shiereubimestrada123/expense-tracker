@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import RadioButton from "../components/RadioButton";
 import { SIGN_UP } from "../graphql/mutations/user.mutation";
+import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
 import useThrottledToast from "../hooks/useThrottledToast";
 
 const SignUp = ({
@@ -16,6 +18,7 @@ const SignUp = ({
   passwordFocused,
   setPasswordFocused,
 }) => {
+  const navigate = useNavigate();
   const showToast = useThrottledToast();
 
   const [signUpData, setSignUpData] = useState({
@@ -46,6 +49,7 @@ const SignUp = ({
     onError: (error) => {
       showToast(error.message, "error");
     },
+    refetchQueries: [{ query: GET_AUTHENTICATED_USER }],
   });
 
   const handleChange = (e) => {
@@ -67,6 +71,7 @@ const SignUp = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signUp();
+    navigate("/");
   };
 
   return (

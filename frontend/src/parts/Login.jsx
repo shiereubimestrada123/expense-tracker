@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
 import { LOGIN } from "../graphql/mutations/user.mutation";
+import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
 import useThrottledToast from "../hooks/useThrottledToast";
 
 const Login = ({
@@ -12,6 +15,7 @@ const Login = ({
   setPasswordFocused,
   toggleForm,
 }) => {
+  const navigate = useNavigate();
   const showToast = useThrottledToast();
 
   const [loginData, setLoginData] = useState({
@@ -20,16 +24,26 @@ const Login = ({
   });
 
   const [login, { loading }] = useMutation(LOGIN, {
+    variables: {
+      input: {
+        username: loginData.username,
+        password: loginData.password,
+      },
+    },
     onCompleted: (data) => {
+      console.log("Login successful:", data); // Added logging
       showToast(data.login.message, "success");
       setLoginData({
         username: "",
         password: "",
       });
+      navigate("/");
     },
     onError: (error) => {
+      console.error("Login error:", error); // Added logging
       showToast(error.message, "error");
     },
+    refetchQueries: [{ query: GET_AUTHENTICATED_USER }],
   });
 
   const handleChange = (e) => {
@@ -42,14 +56,7 @@ const Login = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login({
-      variables: {
-        input: {
-          username: loginData.username,
-          password: loginData.password,
-        },
-      },
-    });
+    await login();
   };
 
   return (
