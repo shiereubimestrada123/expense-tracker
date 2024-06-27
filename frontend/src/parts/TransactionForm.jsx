@@ -14,7 +14,8 @@ const categories = [
 ];
 
 const TransactionForm = () => {
-  const [focused, setFocused] = useState(false);
+  const [paymentFocused, setPaymentFocused] = useState(false);
+  const [categoryFocused, setCategoryFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
   const [amountFocused, setAmountFocused] = useState(false);
   const [locationFocused, setLocationFocused] = useState(false);
@@ -53,12 +54,12 @@ const TransactionForm = () => {
         <label htmlFor="paymentType">Payment Type</label>
         <select
           className={`block appearance-none w-full bg-transparent border ${
-            focused ? "border-button-gradient" : "border-gray-200"
+            paymentFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="paymentType"
           name="paymentType"
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={() => setPaymentFocused(true)}
+          onBlur={() => setPaymentFocused(false)}
           onChange={handleChange}
         >
           <option value={"card"}>Card</option>
@@ -70,12 +71,12 @@ const TransactionForm = () => {
         <label htmlFor="category">Category</label>
         <select
           className={`block appearance-none w-full bg-transparent border ${
-            focused ? "border-button-gradient" : "border-gray-200"
+            categoryFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="paymentType"
           name="paymentType"
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={() => setCategoryFocused(true)}
+          onBlur={() => setCategoryFocused(false)}
           onChange={handleChange}
         >
           <option value={"saving"}>Saving</option>
