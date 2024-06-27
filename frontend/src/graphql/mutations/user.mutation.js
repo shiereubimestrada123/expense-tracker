@@ -30,4 +30,12 @@ const LOGIN = gql`
   }
 `;
 
-export { SIGN_UP, LOGIN };
+const LOGOUT = gql`
+  mutation Logout {
+    logout {
+      message
+    }
+  }
+`;
+
+export { SIGN_UP, LOGIN, LOGOUT };

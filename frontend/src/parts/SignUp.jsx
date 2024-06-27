@@ -162,7 +162,7 @@ const SignUp = ({
             >
               SIGN UP
             </button>
-            <p className="lg:hidden block">
+            <p className="md:hidden lg:hidden block">
               If you already have an account? Please{" "}
               <span
                 className="text-primary-gradient italic tracking-wider"

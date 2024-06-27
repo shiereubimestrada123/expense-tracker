@@ -103,7 +103,7 @@ const Login = ({
             >
               Sign In
             </button>
-            <p className="lg:hidden block">
+            <p className="md:hidden lg:hidden block">
               Don&apos;t have an account yet? Please{" "}
               <span
                 className="text-primary-gradient italic tracking-wider"
