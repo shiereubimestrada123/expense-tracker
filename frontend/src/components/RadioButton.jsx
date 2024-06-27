@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import cx from "clsx";
 
 const RadioButton = ({
-  defaultChecked,
+  checked,
   disabled,
   id,
   label,
@@ -16,7 +16,7 @@ const RadioButton = ({
         type="radio"
         id={id}
         name={name}
-        defaultChecked={defaultChecked}
+        checked={checked}
         disabled={disabled}
         className="
           peer
@@ -50,7 +50,7 @@ const RadioButton = ({
 );
 
 RadioButton.propTypes = {
-  defaultChecked: PropTypes.bool,
+  checked: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

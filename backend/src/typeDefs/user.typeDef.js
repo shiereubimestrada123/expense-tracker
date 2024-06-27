@@ -7,7 +7,24 @@ const userTypeDef = `#graphql
     gender: String!
   }
 
+  input SignUpInput {
+    username: String!
+    name: String!
+    password: String!
+    gender: String!
+  }
+
   type SignUpResponse {
+    user: User
+    message: String!
+  }
+
+  input LoginInput {
+    username: String!
+    password: String!
+  }
+
+  type LoginResponse {
     user: User
     message: String!
   }
@@ -16,25 +33,13 @@ const userTypeDef = `#graphql
     message: String!
   }
 
-  input SignUpInput {
-    username: String!
-    name: String!
-    password: String!
-    gender: String!
-  }
-
-  input LoginInput {
-    username: String!
-    password: String!
-  }
-
   type Query {
     user(userId: ID!): User
   }
 
   type Mutation {
     signUp(input: SignUpInput!): SignUpResponse
-    login(input: LoginInput!): User
+    login(input: LoginInput!): LoginResponse
     logout: LogoutResponse
   }
 `;

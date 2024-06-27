@@ -44,6 +44,22 @@ const userResolver = {
         message: "Sign up successful!",
       };
     },
+
+    login: async (_, { input }, context) => {
+      const { username, password } = input;
+      if (!username || !password) throw new Error("All fields are required");
+
+      const { user } = await context.authenticate("graphql-local", {
+        username,
+        password,
+      });
+
+      await context.login(user);
+      return {
+        user,
+        message: "Login successful!",
+      };
+    },
   },
 };
 

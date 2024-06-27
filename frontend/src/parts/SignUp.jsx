@@ -20,7 +20,7 @@ const SignUp = ({
     name: "",
     username: "",
     password: "",
-    gender: "",
+    gender: "male",
   });
 
   const [signUp, { loading }] = useMutation(SIGN_UP, {
@@ -34,6 +34,12 @@ const SignUp = ({
     },
     onCompleted: (data) => {
       toast.success(data.signUp.message);
+      setSignUpData({
+        name: "",
+        username: "",
+        password: "",
+        gender: "male",
+      });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -131,6 +137,7 @@ const SignUp = ({
                 label="Male"
                 name="gender"
                 value="male"
+                checked={signUpData.gender === "male"}
                 onChange={handleChange}
               />
               <RadioButton
@@ -138,6 +145,7 @@ const SignUp = ({
                 label="Female"
                 name="gender"
                 value="female"
+                checked={signUpData.gender === "female"}
                 onChange={handleChange}
               />
             </div>

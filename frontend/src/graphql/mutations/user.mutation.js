@@ -15,4 +15,19 @@ const SIGN_UP = gql`
   }
 `;
 
-export { SIGN_UP };
+const LOGIN = gql`
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      user {
+        _id
+        username
+        name
+        password
+        gender
+      }
+      message
+    }
+  }
+`;
+
+export { SIGN_UP, LOGIN };
