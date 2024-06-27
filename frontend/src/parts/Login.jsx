@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
-import toast from "react-hot-toast";
 import { LOGIN } from "../graphql/mutations/user.mutation";
+import useThrottledToast from "../hooks/useThrottledToast";
 
 const Login = ({
   isSignIn,
@@ -12,6 +12,8 @@ const Login = ({
   setPasswordFocused,
   toggleForm,
 }) => {
+  const showToast = useThrottledToast();
+
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
@@ -19,14 +21,14 @@ const Login = ({
 
   const [login, { loading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
-      toast.success(data.login.message);
+      showToast(data.login.message, "success");
       setLoginData({
         username: "",
         password: "",
       });
     },
     onError: (error) => {
-      toast.error(error.message);
+      showToast(error.message, "error");
     },
   });
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import toast from "react-hot-toast";
 
 import PropTypes from "prop-types";
 import RadioButton from "../components/RadioButton";
 import { SIGN_UP } from "../graphql/mutations/user.mutation";
+import useThrottledToast from "../hooks/useThrottledToast";
 
 const SignUp = ({
   isSignIn,
@@ -16,6 +16,8 @@ const SignUp = ({
   passwordFocused,
   setPasswordFocused,
 }) => {
+  const showToast = useThrottledToast();
+
   const [signUpData, setSignUpData] = useState({
     name: "",
     username: "",
@@ -33,7 +35,7 @@ const SignUp = ({
       },
     },
     onCompleted: (data) => {
-      toast.success(data.signUp.message);
+      showToast(data.signUp.message, "success");
       setSignUpData({
         name: "",
         username: "",
@@ -42,7 +44,7 @@ const SignUp = ({
       });
     },
     onError: (error) => {
-      toast.error(error.message);
+      showToast(error.message, "error");
     },
   });
 
