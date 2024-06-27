@@ -7,6 +7,7 @@ import RadioButton from "../components/RadioButton";
 import { SIGN_UP } from "../graphql/mutations/user.mutation";
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
 import useThrottledToast from "../hooks/useThrottledToast";
+import InputField from "../components/InputField";
 
 const SignUp = ({
   isSignIn,
@@ -45,6 +46,7 @@ const SignUp = ({
         password: "",
         gender: "male",
       });
+      navigate("/");
     },
     onError: (error) => {
       showToast(error.message, "error");
@@ -71,7 +73,6 @@ const SignUp = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signUp();
-    navigate("/");
   };
 
   return (
@@ -99,44 +100,35 @@ const SignUp = ({
             Create Account
           </h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
+            <InputField
               id="name"
               name="name"
               type="text"
               placeholder="Full name"
-              className={`w-full p-2 border rounded focus:outline-none ${
-                nameFocused ? "border-button-gradient" : "border-gray-300"
-              }`}
-              onFocus={() => setNameFocused(true)}
-              onBlur={() => setNameFocused(false)}
-              onChange={handleChange}
               value={signUpData.name}
+              focused={nameFocused}
+              setFocused={setNameFocused}
+              handleChange={handleChange}
             />
-            <input
+            <InputField
               id="username"
               name="username"
               type="text"
               placeholder="Username"
-              className={`w-full p-2 border rounded focus:outline-none ${
-                emailFocused ? "border-button-gradient" : "border-gray-300"
-              }`}
-              onFocus={() => setEmailFocused(true)}
-              onBlur={() => setEmailFocused(false)}
-              onChange={handleChange}
               value={signUpData.username}
+              focused={emailFocused}
+              setFocused={setEmailFocused}
+              handleChange={handleChange}
             />
-            <input
+            <InputField
               id="password"
               name="password"
               type="password"
               placeholder="Password"
-              className={`w-full p-2 border rounded focus:outline-none ${
-                passwordFocused ? "border-button-gradient" : "border-gray-300"
-              }`}
-              onFocus={() => setPasswordFocused(true)}
-              onBlur={() => setPasswordFocused(false)}
-              onChange={handleChange}
               value={signUpData.password}
+              focused={passwordFocused}
+              setFocused={setPasswordFocused}
+              handleChange={handleChange}
             />
             <div className="flex gap-10">
               <RadioButton

@@ -1,3 +1,3 @@
-const transactionTypeDef = `#graphql`;
+// const transactionTypeDef = `#graphql`;
 
-export default transactionTypeDef;
+// export default transactionTypeDef;

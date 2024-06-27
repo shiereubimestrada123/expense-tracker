@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LOGIN } from "../graphql/mutations/user.mutation";
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
 import useThrottledToast from "../hooks/useThrottledToast";
+import InputField from "../components/InputField";
 
 const Login = ({
   isSignIn,
@@ -31,7 +32,6 @@ const Login = ({
       },
     },
     onCompleted: (data) => {
-      console.log("Login successful:", data); // Added logging
       showToast(data.login.message, "success");
       setLoginData({
         username: "",
@@ -71,31 +71,25 @@ const Login = ({
             Sign In
           </h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
+            <InputField
               id="username"
               name="username"
               type="text"
               placeholder="Username"
-              className={`w-full p-2 border rounded focus:outline-none ${
-                emailFocused ? "border-button-gradient" : "border-gray-300"
-              }`}
-              onFocus={() => setEmailFocused(true)}
-              onBlur={() => setEmailFocused(false)}
-              onChange={handleChange}
               value={loginData.username}
+              focused={emailFocused}
+              setFocused={setEmailFocused}
+              handleChange={handleChange}
             />
-            <input
+            <InputField
               id="password"
               name="password"
               type="password"
               placeholder="Password"
-              className={`w-full p-2 border rounded focus:outline-none ${
-                passwordFocused ? "border-button-gradient" : "border-gray-300"
-              }`}
-              onFocus={() => setPasswordFocused(true)}
-              onBlur={() => setPasswordFocused(false)}
-              onChange={handleChange}
               value={loginData.password}
+              focused={passwordFocused}
+              setFocused={setPasswordFocused}
+              handleChange={handleChange}
             />
             <button
               type="submit"
