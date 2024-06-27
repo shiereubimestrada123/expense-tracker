@@ -20,17 +20,23 @@ const TransactionForm = () => {
   const [amountFocused, setAmountFocused] = useState(false);
   const [locationFocused, setLocationFocused] = useState(false);
   const [dateFocused, setDateFocused] = useState(false);
-  const [description, setDescription] = useState("");
-  const [selectedPaymentType, setSelectedPaymentType] = useState(
-    paymentTypes[0]
-  );
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-  const [amount, setAmount] = useState(0);
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+  const [formState, setFormState] = useState({
+    description: "",
+    selectedPaymentType: paymentTypes[0],
+    selectedCategory: categories[0],
+    amount: 0,
+    location: "",
+    date: "",
+  });
+
+  // console.log(formState);
 
   const handleChange = (e) => {
-    console.log("handlechange");
+    const { name, value } = e.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
   return (
@@ -46,7 +52,7 @@ const TransactionForm = () => {
           focused={descriptionFocused}
           setFocused={setDescriptionFocused}
           handleChange={handleChange}
-          value={description}
+          value={formState.description}
         />
       </div>
 
@@ -57,13 +63,14 @@ const TransactionForm = () => {
             paymentFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="paymentType"
-          name="paymentType"
+          name="selectedPaymentType"
           onFocus={() => setPaymentFocused(true)}
           onBlur={() => setPaymentFocused(false)}
           onChange={handleChange}
+          value={formState.selectedPaymentType.value}
         >
-          <option value={"card"}>Card</option>
-          <option value={"cash"}>Cash</option>
+          <option value="card">Card</option>
+          <option value="cash">Cash</option>
         </select>
       </div>
 
@@ -73,15 +80,16 @@ const TransactionForm = () => {
           className={`block appearance-none w-full bg-transparent border ${
             categoryFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
-          id="paymentType"
-          name="paymentType"
+          id="category"
+          name="selectedCategory"
           onFocus={() => setCategoryFocused(true)}
           onBlur={() => setCategoryFocused(false)}
           onChange={handleChange}
+          value={formState.selectedCategory.value}
         >
-          <option value={"saving"}>Saving</option>
-          <option value={"expense"}>Expense</option>
-          <option value={"investment"}>Investment</option>
+          <option value="saving">Saving</option>
+          <option value="expense">Expense</option>
+          <option value="investment">Investment</option>
         </select>
       </div>
 
@@ -95,7 +103,7 @@ const TransactionForm = () => {
           focused={amountFocused}
           setFocused={setAmountFocused}
           handleChange={handleChange}
-          value={amount}
+          value={formState.amount}
         />
       </div>
 
@@ -109,7 +117,7 @@ const TransactionForm = () => {
           focused={locationFocused}
           setFocused={setLocationFocused}
           handleChange={handleChange}
-          value={location}
+          value={formState.location}
         />
       </div>
 
@@ -123,7 +131,7 @@ const TransactionForm = () => {
           focused={dateFocused}
           setFocused={setDateFocused}
           handleChange={handleChange}
-          value={date}
+          value={formState.date}
         />
       </div>
     </form>
