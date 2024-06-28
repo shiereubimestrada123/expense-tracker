@@ -25,12 +25,6 @@ const Login = ({
   });
 
   const [login, { loading }] = useMutation(LOGIN, {
-    variables: {
-      input: {
-        username: loginData.username,
-        password: loginData.password,
-      },
-    },
     onCompleted: (data) => {
       showToast(data.login.message, "success");
       setLoginData({
@@ -55,7 +49,14 @@ const Login = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login();
+    await login({
+      variables: {
+        input: {
+          username: loginData.username,
+          password: loginData.password,
+        },
+      },
+    });
   };
 
   return (

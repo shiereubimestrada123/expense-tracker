@@ -30,14 +30,6 @@ const SignUp = ({
   });
 
   const [signUp, { loading }] = useMutation(SIGN_UP, {
-    variables: {
-      input: {
-        name: signUpData.name,
-        username: signUpData.username,
-        password: signUpData.password,
-        gender: signUpData.gender,
-      },
-    },
     onCompleted: (data) => {
       showToast(data.signUp.message, "success");
       setSignUpData({
@@ -72,7 +64,16 @@ const SignUp = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signUp();
+    await signUp({
+      variables: {
+        input: {
+          name: signUpData.name,
+          username: signUpData.username,
+          password: signUpData.password,
+          gender: signUpData.gender,
+        },
+      },
+    });
   };
 
   return (

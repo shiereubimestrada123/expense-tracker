@@ -5,11 +5,13 @@ import InputField from "../components/InputField";
 import useThrottledToast from "../hooks/useThrottledToast";
 
 const paymentTypes = [
+  { value: "", label: "Select payment type" },
   { value: "card", label: "Card" },
   { value: "cash", label: "Cash" },
 ];
 
 const categories = [
+  { value: "", label: "Select category" },
   { value: "saving", label: "Saving" },
   { value: "expense", label: "Expense" },
   { value: "investment", label: "Investment" },
@@ -26,29 +28,19 @@ const TransactionForm = () => {
   const [dateFocused, setDateFocused] = useState(false);
   const [formState, setFormState] = useState({
     description: "",
-    selectedPaymentType: paymentTypes[0].value,
-    selectedCategory: categories[0].value,
+    selectedPaymentType: "",
+    selectedCategory: "",
     amount: 0,
     location: "",
     date: "",
   });
 
   const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
-    variables: {
-      input: {
-        description: formState.description,
-        paymentType: formState.selectedPaymentType,
-        category: formState.selectedCategory,
-        amount: formState.amount,
-        location: formState.location,
-        date: formState.date,
-      },
-    },
     onCompleted: () => {
       setFormState({
         description: "",
-        selectedPaymentType: paymentTypes[0].value,
-        selectedCategory: categories[0].value,
+        selectedPaymentType: "",
+        selectedCategory: "",
         amount: 0,
         location: "",
         date: "",
@@ -70,7 +62,18 @@ const TransactionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createTransaction();
+    await createTransaction({
+      variables: {
+        input: {
+          description: formState.description,
+          paymentType: formState.selectedPaymentType,
+          category: formState.selectedCategory,
+          amount: formState.amount,
+          location: formState.location,
+          date: formState.date,
+        },
+      },
+    });
   };
 
   return (
@@ -98,6 +101,7 @@ const TransactionForm = () => {
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="paymentType"
           name="selectedPaymentType"
+          placeholder="Select payment type"
           onFocus={() => setPaymentFocused(true)}
           onBlur={() => setPaymentFocused(false)}
           onChange={handleChange}
@@ -119,6 +123,7 @@ const TransactionForm = () => {
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="category"
           name="selectedCategory"
+          placeholder="Select category"
           onFocus={() => setCategoryFocused(true)}
           onBlur={() => setCategoryFocused(false)}
           onChange={handleChange}
@@ -178,7 +183,7 @@ const TransactionForm = () => {
         type="submit"
         className="w-full p-2 bg-button-gradient text-white rounded"
       >
-        Sign In
+        Submit
       </button>
     </form>
   );
