@@ -50,6 +50,7 @@ const TransactionForm = () => {
     onError: (err) => {
       showToast(err.message, "error");
     },
+    refetchQueries: ["GetTransactions"],
   });
 
   const handleChange = (e) => {
@@ -183,7 +184,13 @@ const TransactionForm = () => {
         type="submit"
         className="w-full p-2 bg-button-gradient text-white rounded"
       >
-        Submit
+        {loading ? (
+          <div className="flex items-center justify-center h-full w-full">
+            <div className="w-6 h-6 border-t-2 border-b-2 mx-2 rounded-full animate-spin" />
+          </div>
+        ) : (
+          "SUBMIT"
+        )}
       </button>
     </form>
   );

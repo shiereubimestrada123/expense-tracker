@@ -153,7 +153,13 @@ const SignUp = ({
               type="submit"
               className="w-full p-2 bg-button-gradient text-white rounded"
             >
-              SIGN UP
+              {loading ? (
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className="w-6 h-6 border-t-2 border-b-2 mx-2 rounded-full animate-spin" />
+                </div>
+              ) : (
+                "SIGN UP"
+              )}
             </button>
             <p className="md:hidden lg:hidden block">
               If you already have an account? Please{" "}
