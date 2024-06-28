@@ -22,8 +22,26 @@ const transactionResolver = {
         ...input,
         userId: context.getUser()._id,
       });
+
       await newTransaction.save();
-      return newTransaction;
+      return {
+        transaction: newTransaction,
+        message: "Transaction created successfully",
+      };
+    },
+    deleteTransaction: async (_, { transactionId }, context) => {
+      const deletedTransaction = await Transaction.findByIdAndDelete(
+        transactionId
+      );
+
+      if (!deletedTransaction) {
+        throw new Error("Transaction not found");
+      }
+
+      return {
+        transaction: deletedTransaction,
+        message: "Transaction deleted successfully",
+      };
     },
   },
 };

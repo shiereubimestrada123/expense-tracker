@@ -36,7 +36,7 @@ const TransactionForm = () => {
   });
 
   const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
-    onCompleted: () => {
+    onCompleted: (data) => {
       setFormState({
         description: "",
         selectedPaymentType: "",
@@ -45,7 +45,7 @@ const TransactionForm = () => {
         location: "",
         date: "",
       });
-      showToast("Transaction created successfully", "success");
+      showToast(data.createTransaction.message, "success");
     },
     onError: (err) => {
       showToast(err.message, "error");

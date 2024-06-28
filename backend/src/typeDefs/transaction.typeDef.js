@@ -20,12 +20,23 @@ const transactionTypeDef = `#graphql
     location: String
   }
 
+  type CreateResponse {
+    transaction: Transaction
+    message: String!
+  }
+
+  type DeleteResponse {
+    transaction: Transaction
+    message: String!
+  }
+
   type Query {
     transactions: [Transaction!]
   }
 
   type Mutation {
-    createTransaction(input: CreateTransactionInput!): Transaction!
+    createTransaction(input: CreateTransactionInput!): CreateResponse!
+    deleteTransaction(transactionId:ID!): DeleteResponse!
   }
 `;
 
