@@ -40,7 +40,6 @@ const Login = ({
       navigate("/");
     },
     onError: (error) => {
-      console.error("Login error:", error); // Added logging
       showToast(error.message, "error");
     },
     refetchQueries: [{ query: GET_AUTHENTICATED_USER }],
@@ -135,7 +134,7 @@ Login.propTypes = {
   setEmailFocused: PropTypes.func.isRequired,
   passwordFocused: PropTypes.bool.isRequired,
   setPasswordFocused: PropTypes.func.isRequired,
-  toggleForm: PropTypes.func.isRequired,
+  toggleForm: PropTypes.func,
 };
 
 export default Login;

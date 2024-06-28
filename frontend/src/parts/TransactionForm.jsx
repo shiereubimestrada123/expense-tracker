@@ -1,6 +1,8 @@
 import { useState } from "react";
-import Select from "react-select";
+import { useMutation } from "@apollo/client";
+import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import InputField from "../components/InputField";
+import useThrottledToast from "../hooks/useThrottledToast";
 
 const paymentTypes = [
   { value: "card", label: "Card" },
@@ -14,6 +16,8 @@ const categories = [
 ];
 
 const TransactionForm = () => {
+  const showToast = useThrottledToast();
+
   const [paymentFocused, setPaymentFocused] = useState(false);
   const [categoryFocused, setCategoryFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
@@ -22,25 +26,55 @@ const TransactionForm = () => {
   const [dateFocused, setDateFocused] = useState(false);
   const [formState, setFormState] = useState({
     description: "",
-    selectedPaymentType: paymentTypes[0],
-    selectedCategory: categories[0],
+    selectedPaymentType: paymentTypes[0].value,
+    selectedCategory: categories[0].value,
     amount: 0,
     location: "",
     date: "",
   });
 
-  // console.log(formState);
+  const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
+    variables: {
+      input: {
+        description: formState.description,
+        paymentType: formState.selectedPaymentType,
+        category: formState.selectedCategory,
+        amount: formState.amount,
+        location: formState.location,
+        date: formState.date,
+      },
+    },
+    onCompleted: () => {
+      setFormState({
+        description: "",
+        selectedPaymentType: paymentTypes[0].value,
+        selectedCategory: categories[0].value,
+        amount: 0,
+        location: "",
+        date: "",
+      });
+      showToast("Transaction created successfully", "success");
+    },
+    onError: (err) => {
+      showToast(err.message, "error");
+    },
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: name === "amount" ? parseFloat(value) : value,
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await createTransaction();
+  };
+
   return (
-    <form className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="description">Description</label>
         <InputField
@@ -48,7 +82,7 @@ const TransactionForm = () => {
           name="description"
           type="text"
           required
-          placeholder="Rent, Groceries, Salary, etc."
+          placeholder="Clothes, food, rent etc."
           focused={descriptionFocused}
           setFocused={setDescriptionFocused}
           handleChange={handleChange}
@@ -67,10 +101,13 @@ const TransactionForm = () => {
           onFocus={() => setPaymentFocused(true)}
           onBlur={() => setPaymentFocused(false)}
           onChange={handleChange}
-          value={formState.selectedPaymentType.value}
+          value={formState.selectedPaymentType}
         >
-          <option value="card">Card</option>
-          <option value="cash">Cash</option>
+          {paymentTypes.map((type) => (
+            <option key={type.value} value={type.value}>
+              {type.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -85,11 +122,13 @@ const TransactionForm = () => {
           onFocus={() => setCategoryFocused(true)}
           onBlur={() => setCategoryFocused(false)}
           onChange={handleChange}
-          value={formState.selectedCategory.value}
+          value={formState.selectedCategory}
         >
-          <option value="saving">Saving</option>
-          <option value="expense">Expense</option>
-          <option value="investment">Investment</option>
+          {categories.map((category) => (
+            <option key={category.value} value={category.value}>
+              {category.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -134,6 +173,13 @@ const TransactionForm = () => {
           value={formState.date}
         />
       </div>
+
+      <button
+        type="submit"
+        className="w-full p-2 bg-button-gradient text-white rounded"
+      >
+        Sign In
+      </button>
     </form>
   );
 };
