@@ -20,6 +20,10 @@ const transactionTypeDef = `#graphql
     location: String
   }
 
+  type Query {
+    transactions: [Transaction!]
+  }
+
   type Mutation {
     createTransaction(input: CreateTransactionInput!): Transaction!
   }
