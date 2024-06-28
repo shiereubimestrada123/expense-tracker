@@ -30,7 +30,7 @@ const TransactionForm = () => {
     description: "",
     selectedPaymentType: "",
     selectedCategory: "",
-    amount: 0,
+    amount: "",
     location: "",
     date: "",
   });
@@ -41,7 +41,7 @@ const TransactionForm = () => {
         description: "",
         selectedPaymentType: "",
         selectedCategory: "",
-        amount: 0,
+        amount: "",
         location: "",
         date: "",
       });
@@ -57,21 +57,41 @@ const TransactionForm = () => {
     const { name, value } = e.target;
     setFormState({
       ...formState,
-      [name]: name === "amount" ? parseFloat(value) : value,
+      [name]: name === "amount" ? parseFloat(value) || "" : value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const {
+      description,
+      selectedPaymentType,
+      selectedCategory,
+      amount,
+      location,
+      date,
+    } = formState;
+
+    if (
+      !description ||
+      !selectedPaymentType ||
+      !selectedCategory ||
+      !amount ||
+      !date
+    ) {
+      showToast("All fields are required", "error");
+      return;
+    }
+
     await createTransaction({
       variables: {
         input: {
-          description: formState.description,
-          paymentType: formState.selectedPaymentType,
-          category: formState.selectedCategory,
-          amount: formState.amount,
-          location: formState.location,
-          date: formState.date,
+          description,
+          paymentType: selectedPaymentType,
+          category: selectedCategory,
+          amount: parseFloat(amount),
+          location,
+          date,
         },
       },
     });
