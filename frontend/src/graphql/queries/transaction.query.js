@@ -14,4 +14,18 @@ const GET_TRANSACTIONS = gql`
   }
 `;
 
-export { GET_TRANSACTIONS };
+const GET_TRANSACTION = gql`
+  query GetTransaction($id: ID!) {
+    transaction(transactionId: $id) {
+      _id
+      description
+      paymentType
+      category
+      amount
+      location
+      date
+    }
+  }
+`;
+
+export { GET_TRANSACTIONS, GET_TRANSACTION };

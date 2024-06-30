@@ -28,8 +28,8 @@ const TransactionForm = () => {
   const [dateFocused, setDateFocused] = useState(false);
   const [formState, setFormState] = useState({
     description: "",
-    selectedPaymentType: "",
-    selectedCategory: "",
+    paymentType: "",
+    category: "",
     amount: "",
     location: "",
     date: "",
@@ -39,8 +39,8 @@ const TransactionForm = () => {
     onCompleted: (data) => {
       setFormState({
         description: "",
-        selectedPaymentType: "",
-        selectedCategory: "",
+        paymentType: "",
+        category: "",
         amount: "",
         location: "",
         date: "",
@@ -63,22 +63,10 @@ const TransactionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {
-      description,
-      selectedPaymentType,
-      selectedCategory,
-      amount,
-      location,
-      date,
-    } = formState;
+    const { description, paymentType, category, amount, location, date } =
+      formState;
 
-    if (
-      !description ||
-      !selectedPaymentType ||
-      !selectedCategory ||
-      !amount ||
-      !date
-    ) {
+    if (!description || !paymentType || !category || !amount || !date) {
       showToast("All fields are required", "error");
       return;
     }
@@ -87,8 +75,8 @@ const TransactionForm = () => {
       variables: {
         input: {
           description,
-          paymentType: selectedPaymentType,
-          category: selectedCategory,
+          paymentType: paymentType,
+          category: category,
           amount: parseFloat(amount),
           location,
           date,
@@ -121,12 +109,12 @@ const TransactionForm = () => {
             paymentFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="paymentType"
-          name="selectedPaymentType"
+          name="paymentType"
           placeholder="Select payment type"
           onFocus={() => setPaymentFocused(true)}
           onBlur={() => setPaymentFocused(false)}
           onChange={handleChange}
-          value={formState.selectedPaymentType}
+          value={formState.paymentType}
         >
           {paymentTypes.map((type) => (
             <option key={type.value} value={type.value}>
@@ -143,12 +131,12 @@ const TransactionForm = () => {
             categoryFocused ? "border-button-gradient" : "border-gray-200"
           } text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none`}
           id="category"
-          name="selectedCategory"
+          name="category"
           placeholder="Select category"
           onFocus={() => setCategoryFocused(true)}
           onBlur={() => setCategoryFocused(false)}
           onChange={handleChange}
-          value={formState.selectedCategory}
+          value={formState.category}
         >
           {categories.map((category) => (
             <option key={category.value} value={category.value}>
@@ -209,7 +197,7 @@ const TransactionForm = () => {
             <div className="w-6 h-6 border-t-2 border-b-2 mx-2 rounded-full animate-spin" />
           </div>
         ) : (
-          "SUBMIT"
+          "ADD"
         )}
       </button>
     </form>

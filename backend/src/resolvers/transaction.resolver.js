@@ -9,6 +9,13 @@ const transactionResolver = {
       const transactions = await Transaction.find({ userId });
       return transactions;
     },
+    transaction: async (_, { transactionId }, context) => {
+      const transaction = await Transaction.findById(transactionId);
+
+      if (!transaction) throw new Error("Transaction not found");
+
+      return transaction;
+    },
   },
   Mutation: {
     createTransaction: async (_, { input }, context) => {
@@ -28,6 +35,17 @@ const transactionResolver = {
         transaction: newTransaction,
         message: "Transaction created successfully",
       };
+    },
+    updateTransaction: async (_, { input }, context) => {
+      const updatedTransaction = await Transaction.findByIdAndUpdate(
+        input.transactionId,
+        input,
+        {
+          new: true,
+        }
+      );
+
+      return updatedTransaction;
     },
     deleteTransaction: async (_, { transactionId }, context) => {
       const deletedTransaction = await Transaction.findByIdAndDelete(

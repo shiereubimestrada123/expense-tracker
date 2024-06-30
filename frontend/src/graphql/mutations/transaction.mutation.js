@@ -17,6 +17,20 @@ const CREATE_TRANSACTION = gql`
   }
 `;
 
+const UPDATE_TRANSACTION = gql`
+  mutation UpdateTransaction($input: UpdateTransactionInput!) {
+    updateTransaction(input: $input) {
+      _id
+      description
+      paymentType
+      category
+      amount
+      location
+      date
+    }
+  }
+`;
+
 const DELETE_TRANSACTION = gql`
   mutation DeleteTransaction($transactionId: ID!) {
     deleteTransaction(transactionId: $transactionId) {
@@ -34,4 +48,4 @@ const DELETE_TRANSACTION = gql`
   }
 `;
 
-export { CREATE_TRANSACTION, DELETE_TRANSACTION };
+export { CREATE_TRANSACTION, DELETE_TRANSACTION, UPDATE_TRANSACTION };
