@@ -50,7 +50,7 @@ const TransactionForm = () => {
     onError: (err) => {
       showToast(err.message, "error");
     },
-    refetchQueries: ["GetTransactions"],
+    refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
   });
 
   const handleChange = (e) => {

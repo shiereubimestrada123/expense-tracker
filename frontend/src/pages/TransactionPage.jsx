@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_TRANSACTION } from "../graphql/queries/transaction.query";
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
+import { GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
 import InputField from "../components/InputField";
 
 const paymentTypes = [
@@ -25,8 +26,12 @@ const TransactionPage = () => {
     variables: { id: id },
   });
 
-  const [updateTransaction, { loading: updateLoading }] =
-    useMutation(UPDATE_TRANSACTION);
+  const [updateTransaction, { loading: updateLoading }] = useMutation(
+    UPDATE_TRANSACTION,
+    {
+      refetchQueries: [GET_TRANSACTION_STATISTICS],
+    }
+  );
 
   const [paymentFocused, setPaymentFocused] = useState(false);
   const [categoryFocused, setCategoryFocused] = useState(false);
@@ -75,6 +80,7 @@ const TransactionPage = () => {
         },
       },
     });
+    navigate("/");
   };
 
   return (

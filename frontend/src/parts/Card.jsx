@@ -9,7 +9,6 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
-import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query";
 import useThrottledToast from "../hooks/useThrottledToast";
 
 const categoryColorMap = {
@@ -39,7 +38,7 @@ const Card = ({ transaction }) => {
     onError: (error) => {
       showToast(error.message, "error");
     },
-    refetchQueries: [{ query: GET_TRANSACTIONS }],
+    refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
   });
 
   const handleDelete = async () => {
