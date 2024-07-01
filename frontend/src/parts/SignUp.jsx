@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 import RadioButton from "../components/RadioButton";
 import { SIGN_UP } from "../graphql/mutations/user.mutation";
@@ -90,7 +91,10 @@ const SignUp = ({
             onClick={toggleForm}
             className="mt-4 text-xl border-2 border-white px-10 py-2 rounded-full"
           >
-            SIGN IN
+            <div className="flex gap-2 items-center">
+              <FaArrowAltCircleLeft />
+              <span>SIGN IN</span>
+            </div>
           </button>
         </div>
       </div>

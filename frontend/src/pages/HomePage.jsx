@@ -1,19 +1,16 @@
 import { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useMutation, useQuery } from "@apollo/client";
-import { LOGOUT } from "../graphql/mutations/user.mutation";
+import { useQuery } from "@apollo/client";
 import { GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
+
 import TransactionForm from "../parts/TransactionForm";
 import Cards from "../parts/Cards";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 const HomePage = () => {
   const { data } = useQuery(GET_TRANSACTION_STATISTICS);
-  const [logout, { loading, client }] = useMutation(LOGOUT, {
-    refetchQueries: ["GetAuthenticatedUser"],
-  });
-  console.log({ data });
+
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -67,41 +64,22 @@ const HomePage = () => {
     }
   }, [data]);
 
-  const handleLogout = async () => {
-    await logout();
-    client.resetStore();
-  };
-
   return (
-    <>
-      <div>
-        <p>Home Page</p>
-        <button onClick={handleLogout}>
-          {loading ? (
-            <div className="flex items-center justify-center h-full w-full">
-              <div className="w-6 h-6 border-t-2 border-b-2 mx-2 rounded-full animate-spin" />
-            </div>
-          ) : (
-            "LOGOUT"
-          )}
-        </button>
-      </div>
+    <div className="flex flex-col w-full lg:w-1/2 mx-auto">
+      <div className="flex flex-col md:flex-row lg:flex-row justify-center items-center gap-4 lg:gap-10">
+        {data?.categoryStatistics.length > 0 && (
+          <div className="h-[330px] w-[330px] md:h-[360px] md:w-[360px] mt-4 mb-6">
+            <Doughnut data={chartData} />
+          </div>
+        )}
 
-      <div className="flex flex-wrap w-full justify-center items-center gap-20">
-        <div>
-          {data?.categoryStatistics.length > 0 && (
-            <div className="h-[330px] w-[330px] md:h-[360px] md:w-[360px]  ">
-              <Doughnut data={chartData} />
-            </div>
-          )}
-        </div>
         <TransactionForm />
       </div>
 
       <div>
         <Cards />
       </div>
-    </>
+    </div>
   );
 };
 
